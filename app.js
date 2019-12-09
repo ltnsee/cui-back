@@ -6,9 +6,8 @@ const static = require('koa-static')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-
-const index = require('./routes/index')
-const users = require('./routes/users')
+const { connectdb } = require('./database/init')
+const routes = require('./routes')
 
 // error handler
 onerror(app)
@@ -22,9 +21,9 @@ app.use(json())
 app.use(logger())
 app.use(static(__dirname + '/public'))
 
-app.use(views(__dirname + '/dist', {
-  extension: 'htme'
-}))
+// app.use(views(__dirname + '/dist', {
+//   extension: 'htme'
+// }))
 // app.use(views(__dirname + '/views', {
 //   extension: 'ejs'
 // }))
@@ -35,11 +34,15 @@ app.use(async (ctx, next) => {
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+  // console.log(`routes：${JSON.stringify(routes)}`)
+});
+
+(async ()=>{
+  await connectdb();
+})()
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(routes.routes(), routes.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
