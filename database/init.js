@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const db = 'mongodb://127.0.0.1:27017/test'
+const appConfig = require('../config')
+const db = `mongodb://${appConfig.mongodb.address}/${appConfig.mongodb.db}`
 // mongoose自己实现的Promise与规范的Promise存在差异，在这里使用node.js实现的Promise global 是服务器端的全局对象
 mongoose.Promise = global.Promise
 
