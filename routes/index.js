@@ -15,4 +15,6 @@ files
     }
   })
 
-module.exports = router
+module.exports = app => {
+  app.use(router.routes(), router.allowedMethods())
+}

@@ -11,11 +11,6 @@ middleware(app)
 connectdb()
 
 // routes
-app.use(routes.routes(), routes.allowedMethods())
-
-// error-handling
-app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-});
+routes(app)
 
 module.exports = app
