@@ -6,8 +6,9 @@ module.exports = () => {
     let token = ctx.cookies.get(appConfig.auth.tokenKey);
     console.log('token', token)
     try {
-      const verify = await jwt.verify(token, appConfig.auth.secret);
-      console.log('verify', verify)
+      const secret = await jwt.verify(token, appConfig.auth.secret);
+      ctx.secret = secret
+      console.log('auth', secret)
     } catch (e) {
       if ('TokenExpiredError' === e.name) {
         ctx.sendError('token已过期, 请重新登录!');

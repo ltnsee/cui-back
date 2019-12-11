@@ -5,6 +5,7 @@ const User = require('../database/models/users')
 // router.prefix('/user')
 
 const getUsers = async (ctx, next) => {
+  console.log('ctx', JSON.stringify(ctx), ctx.secret)
   try {
     const result = await User.find()
     ctx.send({ data: result });
