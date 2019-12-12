@@ -37,7 +37,7 @@ const login = async (ctx, next) => {
     let token = jwt.sign(payload, appConfig.auth.secret, { expiresIn: '24h' })
     // 是否只用于http请求中获取
     ctx.cookies.set(appConfig.auth.tokenKey, token, { httpOnly: false });
-    ctx.send({ message: '登录成功' });
+    ctx.send({ token, message: '登录成功' });
   } catch (e) {
     if (e === '暂无数据') {
       return ctx.sendError('用户名不存在');
@@ -47,6 +47,6 @@ const login = async (ctx, next) => {
   }
 }
 
-router.get('/', login)
+router.post('/', login)
 
 module.exports = router

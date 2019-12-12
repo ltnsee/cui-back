@@ -3,6 +3,9 @@ const appConfig = require('../config')
 
 module.exports = () => {
   return async (ctx, next) => {
+    if (ctx.url == '/login') {
+      return next()
+    }
     let token = ctx.cookies.get(appConfig.auth.tokenKey);
     console.log('token', token)
     try {
